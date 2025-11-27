@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  # 1. Serviço RabbitMQ: a infraestrutura de mensagens, compartilhada entre os ambientes.
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: ${PROJECT_NAME:-ms-base}-rabbitmq
+    # Porta AMQP (comunicação com a aplicação) e porta de gestão
+    ports:
+      - "${RABBITMQ_AMQP_PORT:-5672}:5672"
+      - "${RABBITMQ_MGMT_PORT:-15672}:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER} # Usa variável de ambiente externa
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    networks:
+      - app-network
+
+  # 2. Microsserviço de Consultas
+  consultas-ms:
+    container_name: ${PROJECT_NAME:-ms-base}-consultas
+    # Usa a imagem construída pelo CI e taggeada dinamicamente
+    image: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} 
+    # Mapeamento da porta HTTP
+    ports:
+      - "${MS_CONSULTAS_PORT:-8080}:8080"
+    environment:
+      # Conexão RabbitMQ usando o nome do serviço 'rabbitmq'
+      SPRING_RABBITMQ_HOST: rabbitmq 
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: ${RABBITMQ_USER}
+      SPRING_RABBITMQ_PASSWORD: ${RABBITMQ_PASS}
+      # Configuração de Ambiente Spring (Opcional, mas útil para logs/configs)
+      SPRING_PROFILES_ACTIVE: ${ENV_PROFILE:-dev} 
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network
+
+# 3. Definição da Rede
+networks:
+  app-network:
+    driver: bridge
