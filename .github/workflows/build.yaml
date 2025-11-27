@@ -2,22 +2,21 @@ name: CI - Build & Push Unificado (DEV/MAIN)
 
 on:
   push:
-    branches:
-      - dev
-      - main
+    branches: [ dev, main ]
   workflow_dispatch:
 
 env:
-  DOCKER_IMAGE_NAME: upebr/consultas 
+  DOCKER_IMAGE_NAME: upebr/consultas
   JAVA_VERSION: '21'
-  
+  TARGET_ENV: ${{ github.ref_name == 'main' && 'prd' || 'dev' }}
+
 jobs:
 
   build_and_push:
     name: Build & Push [${{ github.ref_name }}]
     runs-on: ubuntu-latest
-    environment: ${{ github.ref_name == 'main' && 'prd' || 'dev' }}
-    
+    environment: ${{ env.TARGET_ENV }}
+
     steps:
       - name: Checkout do Código
         uses: actions/checkout@v4
@@ -25,24 +24,18 @@ jobs:
       - name: Define Tag e Variáveis
         id: set_vars
         run: |
-          # Pega os primeiros 7 caracteres do SHA do commit
-          SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-7)
-          BRANCH_NAME=${{ github.ref_name }}
+          SHA_SHORT="${GITHUB_SHA::7}"
+          BRANCH_NAME="${GITHUB_REF_NAME}"
 
-          # Define a tag final
-          if [ "$BRANCH_NAME" == "main" ]; then
-            # Tag para Produção: apenas o SHA (Ex: upebr/consultas:a1b2c3d)
+          if [ "$BRANCH_NAME" = "main" ]; then
             TAG="$SHA_SHORT"
           else
-            # Tag para Desenvolvimento: SHA com sufixo (Ex: upebr/consultas:a1b2c3d-dev)
             TAG="$SHA_SHORT-dev"
           fi
-          
-          # Exporta variáveis
+
           echo "DOCKER_FULL_TAG=$TAG" >> $GITHUB_OUTPUT
-          echo "TAG_FOR_DEPLOYMENT=$TAG" >> $GITHUB_ENV
-        
-      - name: Configurar Java ${{ env.JAVA_VERSION }}
+
+      - name: Configurar Java
         uses: actions/setup-java@v4
         with:
           java-version: ${{ env.JAVA_VERSION }}
@@ -51,8 +44,7 @@ jobs:
 
       - name: Build e Empacotamento com Maven
         run: mvn clean package -DskipTests 
-      
-      #todo: criar os secrets DOCKER_USERNAME e DOCKER_PASSWORD no repositório
+
       - name: Login no Docker Hub
         uses: docker/login-action@v3
         with:
@@ -64,8 +56,7 @@ jobs:
         with:
           context: .
           push: true
-          # Usa a tag dinâmica definida no passo anterior
-          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_FOR_DEPLOYMENT }}
-          
+          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.set_vars.outputs.DOCKER_FULL_TAG }}
+
       - name: Imagem Publicada
-        run: echo "A imagem foi publicada como: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_FOR_DEPLOYMENT }}"
+        run: echo "A imagem foi publicada como: ${{ env.DOCKER_IMAGE_NAME }}:${{ steps.set_vars.outputs.DOCKER_FULL_TAG }}"
