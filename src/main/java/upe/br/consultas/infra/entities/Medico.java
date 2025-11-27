@@ -22,7 +22,6 @@ public class Medico {
 
     @Enumerated(EnumType.STRING)
     private EspecialidadesEnum especializacao;
-
     private String crm;
 
 }
