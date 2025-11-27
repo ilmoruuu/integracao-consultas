@@ -18,9 +18,9 @@ import java.util.ArrayList;
 public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    private Integer nome;
+    private String nome;
     private int idade;
     private String cpf;
     private String email;
