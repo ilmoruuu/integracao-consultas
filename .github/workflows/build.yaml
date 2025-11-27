@@ -16,9 +16,7 @@ jobs:
   build_and_push:
     name: Build & Push [${{ github.ref_name }}]
     runs-on: ubuntu-latest
-    
-    # dev para a branch dev e environment: prd para a branch main
-    environment: ${{ github.ref_name == 'main' && 'prd' || 'dev' }} 
+    environment: ${{ github.ref_name == 'main' && 'prd' || 'dev' }}
     
     steps:
       - name: Checkout do Código
