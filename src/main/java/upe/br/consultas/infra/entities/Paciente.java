@@ -20,7 +20,7 @@ public class Paciente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String nome;
+    private Integer nome;
     private int idade;
     private String cpf;
     private String email;
