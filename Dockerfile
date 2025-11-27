@@ -13,7 +13,7 @@ RUN mvn package -DskipTests
 
 # STAGE 2: Imagem de Produção (Runtime)
 # Usa uma imagem Java Runtime Environment (JRE) para produção
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 # Define o diretório de trabalho
 WORKDIR /app
 # Expõe a porta padrão do Spring Boot
