@@ -14,21 +14,22 @@ jobs:
     name: Build & Push [${{ github.ref_name }}]
     runs-on: ubuntu-latest
 
-    # Environment DINÂMICO – forma suportada pelo GitHub Actions
+    # Environment dinâmico suportado!
     environment:
       name: ${{ github.ref_name == 'main' && 'prd' || 'dev' }}
 
     steps:
+
       - name: Checkout do Código
         uses: actions/checkout@v4
 
-      - name: Define Tag e Variáveis
+      - name: Definir Tag
         id: set_vars
         run: |
           SHA_SHORT="${GITHUB_SHA::7}"
-          BRANCH_NAME="${GITHUB_REF_NAME}"
+          IS_MAIN="${GITHUB_REF_NAME}"
 
-          if [ "$BRANCH_NAME" = "main" ]; then
+          if [ "$IS_MAIN" = "main" ]; then
             TAG="$SHA_SHORT"
           else
             TAG="$SHA_SHORT-dev"
