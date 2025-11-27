@@ -8,14 +8,15 @@ on:
 env:
   DOCKER_IMAGE_NAME: upebr/consultas
   JAVA_VERSION: '21'
-  TARGET_ENV: ${{ github.ref_name == 'main' && 'prd' || 'dev' }}
 
 jobs:
-
   build_and_push:
     name: Build & Push [${{ github.ref_name }}]
     runs-on: ubuntu-latest
-    environment: ${{ env.TARGET_ENV }}
+
+    # Environment DINÂMICO – forma suportada pelo GitHub Actions
+    environment:
+      name: ${{ github.ref_name == 'main' && 'prd' || 'dev' }}
 
     steps:
       - name: Checkout do Código
@@ -43,7 +44,7 @@ jobs:
           cache: 'maven'
 
       - name: Build e Empacotamento com Maven
-        run: mvn clean package -DskipTests 
+        run: mvn clean package -DskipTests
 
       - name: Login no Docker Hub
         uses: docker/login-action@v3
