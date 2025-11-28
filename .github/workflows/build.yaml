@@ -1,0 +1,67 @@
+name: CI - Build & Push Unificado (DEV/MAIN)
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+  workflow_dispatch:
+
+env:
+  DOCKER_IMAGE_NAME: upebr/consultas
+  JAVA_VERSION: '21'
+
+jobs:
+
+  build_and_push:
+    name: Build & Push [${{ github.ref_name }}]
+    runs-on: ubuntu-latest
+
+    # DEV para branch dev / PRD para branch main (válido!)
+    environment: ${{ github.ref_name == 'main' && 'prd' || 'dev' }}
+
+    steps:
+      - name: Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: Define Tag e Variáveis
+        id: set_vars
+        run: |
+          SHA_SHORT=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          BRANCH_NAME="${GITHUB_REF_NAME}"
+
+          if [ "$BRANCH_NAME" = "main" ]; then
+            TAG="$SHA_SHORT"
+          else
+            TAG="$SHA_SHORT-dev"
+          fi
+
+          echo "DOCKER_FULL_TAG=$TAG" >> "$GITHUB_OUTPUT"
+          echo "TAG_FOR_DEPLOYMENT=$TAG" >> "$GITHUB_ENV"
+
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: temurin
+          cache: maven
+
+      - name: Build e Empacotamento com Maven
+        run: mvn clean package -DskipTests
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Construir e Enviar a Imagem
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_FOR_DEPLOYMENT }}
+
+      - name: Imagem Publicada
+        run: |
+          echo "A imagem foi publicada como: ${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG_FOR_DEPLOYMENT }}"
