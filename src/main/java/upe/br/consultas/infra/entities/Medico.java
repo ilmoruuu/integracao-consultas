@@ -24,4 +24,6 @@ public class Medico {
     private EspecialidadesEnum especializacao;
     private String crm;
 
+    public Medico(String nome, String telefone, String email, EspecialidadesEnum especializacao, String crm) {
+    }
 }
