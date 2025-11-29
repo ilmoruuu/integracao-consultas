@@ -8,9 +8,9 @@ import java.util.List;
 public interface MedicoService {
     MedicoDTO cadastrarMedico(MedicoDTO medicoDTO);
     MedicoDTO atualizarMedico(MedicoDTO medicoDTO);
-    void excluirMedico(MedicoDTO medicoDTO);
+    void excluirMedico(Integer id);
     List<MedicoDTO> listarMedicos();
-    MedicoDTO buscarMedicoPorId(Long id);
+    MedicoDTO buscarMedicoPorId(Integer id);
     MedicoDTO buscarMedicoPorNome(String nome);
     MedicoDTO buscarMedicoPorEmail(String email);
     MedicoDTO buscarMedicoPorEspecializacao(EspecialidadesEnum especializacao);
