@@ -43,7 +43,6 @@ public class PacienteServiceImpl implements PacienteService {
                 .build();
 
         Paciente salvo = pacienteRepository.save(paciente);
-
         return PacienteDTO.pacienteToDTO(salvo);
     }
 
@@ -58,8 +57,8 @@ public class PacienteServiceImpl implements PacienteService {
         paciente.setEmail(pacienteDTO.email());
         paciente.setTelefone(pacienteDTO.telefone());
         paciente.setSexo(pacienteDTO.sexo());
-        paciente.setHistorico(pacienteDTO.historico());
-        paciente.setRestricoes(pacienteDTO.restricoes());
+        if(pacienteDTO.historico() != null) paciente.setHistorico(pacienteDTO.historico());
+        if(pacienteDTO.restricoes() != null) paciente.setRestricoes(pacienteDTO.restricoes());
 
         Paciente atualizado = pacienteRepository.save(paciente);
 
@@ -90,10 +89,11 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    public PacienteDTO buscarPacientePorNome(String nome) {
-        return pacienteRepository.findByNome(nome)
+    public List<PacienteDTO> buscarPacientePorNome(String nome) {
+        return pacienteRepository.findByNomeContainingIgnoreCase(nome)
+                .stream()
                 .map(PacienteDTO::pacienteToDTO)
-                .orElseThrow(PacienteNaoEncontradoException::new);
+                .toList();
     }
 
     @Override

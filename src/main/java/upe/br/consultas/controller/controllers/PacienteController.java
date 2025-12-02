@@ -54,7 +54,7 @@ public class PacienteController {
 
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<PacienteDTO> buscarPorNome(@PathVariable String nome) {
+    public ResponseEntity<List<PacienteDTO>> buscarPorNome(@PathVariable String nome) {
         return ResponseEntity.ok(pacienteService.buscarPacientePorNome(nome));
     }
 

@@ -7,7 +7,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import upe.br.consultas.infra.entities.Recepicionista;
+import upe.br.consultas.infra.entities.Recepcionista;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -18,7 +18,7 @@ public class TokenService {
     @Value("${api.token.secret}")
     String segredoToken;
 
-    public String generateToken(Recepicionista recepicionista) {
+    public String generateToken(Recepcionista recepicionista) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(segredoToken);
 

@@ -4,6 +4,7 @@ import upe.br.consultas.infra.entities.Paciente;
 import upe.br.consultas.infra.enums.SexoEnum;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public record PacienteDTO(
         Integer id,
@@ -11,9 +12,9 @@ public record PacienteDTO(
         String cpf,
         String email,
         String telefone,
-        ArrayList<Byte> historico,
+        List<Byte> historico,
         SexoEnum sexo,
-        ArrayList<String> restricoes
+        List<String> restricoes
 ) {
     public static PacienteDTO pacienteToDTO (Paciente paciente) {
         return new PacienteDTO(
