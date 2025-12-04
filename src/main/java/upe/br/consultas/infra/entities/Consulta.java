@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
+import upe.br.consultas.infra.enums.CategoriaProdutoEnum;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,4 +48,8 @@ public class Consulta {
     @Column(name = "material")
     @Builder.Default // Importante para o Lombok não anular a lista na construção
     private List<String> materiaisRequisitados = new ArrayList<>();
+    // Tipo do Produto
+
+    private CategoriaProdutoEnum categoria;
+    private Integer quantidadeMaterial;
 }
