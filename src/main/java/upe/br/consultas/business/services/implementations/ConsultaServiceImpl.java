@@ -2,9 +2,11 @@ package upe.br.consultas.business.services.implementations;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import upe.br.consultas.business.producers.MsgProducer;
 import upe.br.consultas.business.services.interfaces.ConsultaService;
 import upe.br.consultas.controller.DTO.consulta.ConsultaCriadaDTO;
 import upe.br.consultas.controller.DTO.consulta.ConsultaDTO;
+import upe.br.consultas.controller.DTO.notificacoes.MsgCancelamentoDTO;
 import upe.br.consultas.infra.entities.Consulta;
 import upe.br.consultas.infra.entities.Medico;
 import upe.br.consultas.infra.entities.Paciente;
@@ -21,10 +23,14 @@ import java.util.List;
 @RequiredArgsConstructor 
 public class ConsultaServiceImpl implements ConsultaService {
 
+
     private final ConsultaRepository consultaRepository;
     private final MedicoRepository medicoRepository;
     private final PacienteRepository pacienteRepository;
     private final RecepcionistaRepository recepcionistaRepository;
+    private final MsgProducer msgProducer;
+
+    
 
     @Override
     public ConsultaDTO agendarConsulta(ConsultaCriadaDTO dto) {
@@ -77,9 +83,20 @@ public class ConsultaServiceImpl implements ConsultaService {
 
     @Override
     public void desmarcarConsulta(Integer id) {
-        if (!consultaRepository.existsById(id)) {
-            throw new RuntimeException("Consulta não encontrada para exclusão.");
-        }
+        Consulta consulta = consultaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Consulta não encontrada para exclusão."));
+
+        MsgCancelamentoDTO notificacao = new MsgCancelamentoDTO(
+                consulta.getPaciente().getEmail(),
+                consulta.getPaciente().getNome(),
+                consulta.getMedico().getNome(),
+                consulta.getData(),
+                "Cancelamento solicitado pelo sistema."
+        );
+
+        //Envia para o RabbitMQ (Assíncrono - não trava o sistema)
+        msgProducer.enviarMensagemCancelamento(notificacao);
+
         consultaRepository.deleteById(id);
     }
 
