@@ -45,6 +45,8 @@ public class ConsultaServiceImpl implements ConsultaService {
         consulta.setMedico(medico);
         consulta.setPaciente(paciente);
         consulta.setRecepcionista(recepcionista);
+        consulta.setMateriaisRequisitados(dto.materiaisRequisitados());
+        consulta.setMateriaisRequisitados(dto.materiaisRequisitados());
 
         
         Consulta consultaSalva = consultaRepository.save(consulta);
@@ -62,6 +64,9 @@ public class ConsultaServiceImpl implements ConsultaService {
         
         consulta.setData(dto.data());
         consulta.setDescricao(dto.descricao());
+        // Pode atualizar o valor e os materiais requisitados (Regra de Negócio)
+        consulta.setValorConsulta(dto.valorConsulta());
+        consulta.setMateriaisRequisitados(dto.materiaisRequisitados());
 
         Consulta atualizada = consultaRepository.save(consulta);
         return ConsultaDTO.consultaToDTO(atualizada);
