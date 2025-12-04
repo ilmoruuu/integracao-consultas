@@ -4,6 +4,7 @@ import upe.br.consultas.controller.DTO.medico.MedicoResumoDTO;
 import upe.br.consultas.controller.DTO.paciente.PacienteResumoDTO;
 import upe.br.consultas.controller.DTO.recepcionista.RecepcionistaResumoDTO;
 import upe.br.consultas.infra.entities.Consulta;
+import upe.br.consultas.infra.enums.CategoriaProdutoEnum;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,7 +17,9 @@ public record ConsultaDTO(
         PacienteResumoDTO paciente,
         RecepcionistaResumoDTO recepcionista,
         List<String> materiaisRequisitados,
-        Double valor
+        Double valor,
+        CategoriaProdutoEnum categoria,
+        Integer quantidadeMaterial
 ) {
 
     public static ConsultaDTO consultaToDTO(Consulta consulta) {
@@ -28,7 +31,9 @@ public record ConsultaDTO(
                 PacienteResumoDTO.fromEntity(consulta.getPaciente()),
                 RecepcionistaResumoDTO.fromEntity(consulta.getRecepcionista()),
                 consulta.getMateriaisRequisitados(),
-                consulta.getValor()
+                consulta.getValor(),
+                consulta.getCategoria(),
+                consulta.getQuantidadeMaterial()
         );
     }
 }
