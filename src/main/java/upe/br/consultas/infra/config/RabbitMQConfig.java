@@ -18,7 +18,9 @@ public class RabbitMQConfig {
 
     public static final String EXCHANGE_FINANCEIRO = "appointments";
     public static final String ROUTING_KEY_FINANCEIRO = "appointments.confirmed.finance";
-    public static final String ROUTING_KEY_RESOURCES = "appointments.confirmed.resources";
+    public static final String ROUTING_KEY_ESTOQUE = "appointments.confirmed.estoque";
+
+    public static final String EXCHANGE_ESTOQUE = "appointments.estoque";
 
 
 
