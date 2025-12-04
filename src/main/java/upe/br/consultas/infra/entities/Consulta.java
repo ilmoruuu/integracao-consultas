@@ -9,6 +9,8 @@ import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -35,4 +37,7 @@ public class Consulta {
     @ManyToOne
     @JoinColumn(name = "recepcionista_id", nullable = false)
     private Recepcionista recepcionista;
+
+    private List<String> materiaisRequisitados = new ArrayList<>();
+    private double valorConsulta;
 }
