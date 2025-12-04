@@ -7,6 +7,7 @@ import upe.br.consultas.business.services.interfaces.ConsultaService;
 import upe.br.consultas.controller.DTO.consulta.ConsultaCriadaDTO;
 import upe.br.consultas.controller.DTO.consulta.ConsultaDTO;
 import upe.br.consultas.controller.DTO.notificacoes.MsgCancelamentoDTO;
+import upe.br.consultas.controller.DTO.notificacoes.MsgFinanceiroDTO;
 import upe.br.consultas.infra.entities.Consulta;
 import upe.br.consultas.infra.entities.Medico;
 import upe.br.consultas.infra.entities.Paciente;
@@ -82,9 +83,18 @@ public class ConsultaServiceImpl implements ConsultaService {
         }
 
         Consulta atualizada = consultaRepository.save(consulta);
-        return ConsultaDTO.consultaToDTO(atualizada);
 
-        //todo: enviar msg para financeiro via rabbitmq
+        MsgFinanceiroDTO msgFinanceira = new MsgFinanceiroDTO(
+            atualizada.getId(),
+            atualizada.getMedico().getId(),
+            atualizada.getValor(),
+            atualizada.getData()
+        );
+        
+        // Envia (Assíncrono - não trava o agendamento se o financeiro estiver fora do ar)
+        msgProducer.enviarMensagemFinanceiro(msgFinanceira);
+
+        return ConsultaDTO.consultaToDTO(atualizada);
     }
 
     @Override
