@@ -10,5 +10,5 @@ public record ConsultaCriadaDTO(
         Integer pacienteId,
         Integer recepcionistaId,
         List<String> materiaisRequisitados,
-        double valorConsulta
+        Double valor
 ) {}

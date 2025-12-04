@@ -1,5 +1,8 @@
 package upe.br.consultas.infra.entities;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +28,7 @@ public class Consulta {
 
     private LocalDate data;
     private String descricao;
+    private Double valor;
 
     @ManyToOne
     @JoinColumn(name = "medico_id", nullable = false)
@@ -38,6 +42,9 @@ public class Consulta {
     @JoinColumn(name = "recepcionista_id", nullable = false)
     private Recepcionista recepcionista;
 
+    @ElementCollection
+    @CollectionTable(name = "consulta_materiais", joinColumns = @JoinColumn(name = "consulta_id"))
+    @Column(name = "material")
+    @Builder.Default // Importante para o Lombok não anular a lista na construção
     private List<String> materiaisRequisitados = new ArrayList<>();
-    private double valorConsulta;
 }

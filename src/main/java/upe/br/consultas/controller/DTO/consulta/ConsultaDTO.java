@@ -16,7 +16,7 @@ public record ConsultaDTO(
         PacienteResumoDTO paciente,
         RecepcionistaResumoDTO recepcionista,
         List<String> materiaisRequisitados,
-        Double valorConsulta
+        Double valor
 ) {
 
     public static ConsultaDTO consultaToDTO(Consulta consulta) {
@@ -28,7 +28,7 @@ public record ConsultaDTO(
                 PacienteResumoDTO.fromEntity(consulta.getPaciente()),
                 RecepcionistaResumoDTO.fromEntity(consulta.getRecepcionista()),
                 consulta.getMateriaisRequisitados(),
-                consulta.getValorConsulta()
+                consulta.getValor()
         );
     }
 }
