@@ -55,6 +55,8 @@ public class ConsultaServiceImpl implements ConsultaService {
             consulta.setMateriaisRequisitados(dto.materiaisRequisitados());
         }
         consulta.setValor(dto.valor());
+        consulta.setCategoria(dto.categoria());
+        consulta.setQuantidadeMaterial(dto.quantidadeMaterial());
 
         
         Consulta consultaSalva = consultaRepository.save(consulta);
@@ -73,6 +75,8 @@ public class ConsultaServiceImpl implements ConsultaService {
         consulta.setData(dto.data());
         consulta.setDescricao(dto.descricao());
         consulta.setValor(dto.valor());
+        consulta.setCategoria(dto.categoria());
+        consulta.setQuantidadeMaterial(dto.quantidadeMaterial());
         if (dto.materiaisRequisitados() != null) {
             consulta.setMateriaisRequisitados(dto.materiaisRequisitados());
         }
