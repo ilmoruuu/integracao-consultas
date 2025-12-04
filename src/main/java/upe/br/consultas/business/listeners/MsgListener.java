@@ -13,7 +13,7 @@ public class MsgListener {
         System.out.println("NOVA MENSAGEM RECEBIDA DO RABBITMQ:");
         System.out.println("Enviando e-mail para: " + mensagem.emailPaciente());
         System.out.println("Olá " + mensagem.nomePaciente() + ", sua consulta com Dr. " + 
-                           mensagem.nomeMedico() + " no dia " + mensagem.dataConsulta() + 
+                           mensagem.nomeMedico() + "("+ mensagem.especialidadeMedico() + "), no dia " + mensagem.dataConsulta() + 
                            " foi cancelada. Descrição da consulta: " + mensagem.descricao());
         System.out.println("------------------------------------------------");
     }

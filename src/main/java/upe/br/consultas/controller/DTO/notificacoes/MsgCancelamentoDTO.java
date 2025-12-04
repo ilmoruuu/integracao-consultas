@@ -7,6 +7,7 @@ public record MsgCancelamentoDTO(
     String emailPaciente,
     String nomePaciente,
     String nomeMedico,
+    String especialidadeMedico,
     LocalDate dataConsulta,
     String descricao
 ) {}

@@ -86,10 +86,13 @@ public class ConsultaServiceImpl implements ConsultaService {
         Consulta consulta = consultaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Consulta não encontrada para exclusão."));
 
+        String especialidadeStr = consulta.getMedico().getEspecializacao().name().replace("_", " ");
+
         MsgCancelamentoDTO notificacao = new MsgCancelamentoDTO(
                 consulta.getPaciente().getEmail(),
                 consulta.getPaciente().getNome(),
                 consulta.getMedico().getNome(),
+                especialidadeStr,
                 consulta.getData(),
                 "Cancelamento solicitado pelo sistema."
         );
