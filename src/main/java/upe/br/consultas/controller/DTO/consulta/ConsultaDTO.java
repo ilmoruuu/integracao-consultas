@@ -6,14 +6,17 @@ import upe.br.consultas.controller.DTO.recepcionista.RecepcionistaResumoDTO;
 import upe.br.consultas.infra.entities.Consulta;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record ConsultaDTO(
         Integer id,
         LocalDate data,
         String descricao,
-        MedicoResumoDTO medico,             
-        PacienteResumoDTO paciente,         
-        RecepcionistaResumoDTO recepcionista
+        MedicoResumoDTO medico,
+        PacienteResumoDTO paciente,
+        RecepcionistaResumoDTO recepcionista,
+        List<String> materiaisRequisitados,
+        Double valorConsulta
 ) {
 
     public static ConsultaDTO consultaToDTO(Consulta consulta) {
@@ -21,10 +24,11 @@ public record ConsultaDTO(
                 consulta.getId(),
                 consulta.getData(),
                 consulta.getDescricao(),
-                // Chama os métodos estáticos de conversão de cada arquivo separado
                 MedicoResumoDTO.fromEntity(consulta.getMedico()),
                 PacienteResumoDTO.fromEntity(consulta.getPaciente()),
-                RecepcionistaResumoDTO.fromEntity(consulta.getRecepcionista())
+                RecepcionistaResumoDTO.fromEntity(consulta.getRecepcionista()),
+                consulta.getMateriaisRequisitados(),
+                consulta.getValorConsulta()
         );
     }
 }
