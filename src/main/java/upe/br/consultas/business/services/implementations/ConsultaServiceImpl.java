@@ -7,6 +7,7 @@ import upe.br.consultas.business.services.interfaces.ConsultaService;
 import upe.br.consultas.controller.DTO.consulta.ConsultaCriadaDTO;
 import upe.br.consultas.controller.DTO.consulta.ConsultaDTO;
 import upe.br.consultas.controller.DTO.notificacoes.MsgCancelamentoDTO;
+import upe.br.consultas.controller.DTO.notificacoes.MsgEstoqueDTO;
 import upe.br.consultas.controller.DTO.notificacoes.MsgFinanceiroDTO;
 import upe.br.consultas.infra.entities.Consulta;
 import upe.br.consultas.infra.entities.Medico;
@@ -93,6 +94,15 @@ public class ConsultaServiceImpl implements ConsultaService {
         
         // Envia (Assíncrono - não trava o agendamento se o financeiro estiver fora do ar)
         msgProducer.enviarMensagemFinanceiro(msgFinanceira);
+
+        MsgEstoqueDTO msgEstoque = new MsgEstoqueDTO(
+                atualizada.getId(),
+                atualizada.getMateriaisRequisitados(),
+                atualizada.getCategoria(),
+                atualizada.getQuantidadeMaterial()
+        );
+
+        msgProducer.enviarMensagemEstoque(msgEstoque);
 
         return ConsultaDTO.consultaToDTO(atualizada);
     }

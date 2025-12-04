@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 import upe.br.consultas.controller.DTO.notificacoes.MsgCancelamentoDTO;
+import upe.br.consultas.controller.DTO.notificacoes.MsgEstoqueDTO;
 import upe.br.consultas.controller.DTO.notificacoes.MsgFinanceiroDTO;
 import upe.br.consultas.infra.config.RabbitMQConfig;
 
@@ -33,7 +34,7 @@ public class MsgProducer {
         System.out.println("Mensagem enviada para o RabbitMQ: " + mensagem);
     }
 
-    public void enviarMensagemEstoque(Object mensagem) {
+    public void enviarMensagemEstoque(MsgEstoqueDTO mensagem) {
         rabbitTemplate.convertAndSend(
                 RabbitMQConfig.EXCHANGE_ESTOQUE,
                 RabbitMQConfig.ROUTING_KEY_ESTOQUE,
