@@ -11,9 +11,17 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
+    
     public static final String QUEUE_CANCELAMENTO = "consulta.cancelada.fila";
     public static final String EXCHANGE_CONSULTAS = "consultas.exchange";
     public static final String ROUTING_KEY_CANCELAMENTO = "consulta.cancelada";
+
+    public static final String EXCHANGE_FINANCEIRO = "appointments";
+    public static final String ROUTING_KEY_FINANCEIRO = "appointments.confirmed.finance";
+    public static final String ROUTING_KEY_RESOURCES = "appointments.confirmed.resources";
+
+
+
 
     // Cria a Fila
     @Bean
@@ -38,4 +46,5 @@ public class RabbitMQConfig {
     public Jackson2JsonMessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
+
 }

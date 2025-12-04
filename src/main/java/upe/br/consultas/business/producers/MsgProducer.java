@@ -22,4 +22,13 @@ public class MsgProducer {
         System.out.println("Mensagem enviada para o RabbitMQ: " + mensagem);
     }
   
+    public void enviarMensagemFinanceiro(Object mensagem) {
+        // Envia para o Exchange, com a Routing Key específica
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.EXCHANGE_FINANCEIRO,
+                RabbitMQConfig.ROUTING_KEY_FINANCEIRO,
+                mensagem
+        );
+        System.out.println("Mensagem enviada para o RabbitMQ: " + mensagem);
+    }
 }

@@ -79,6 +79,8 @@ public class ConsultaServiceImpl implements ConsultaService {
 
         Consulta atualizada = consultaRepository.save(consulta);
         return ConsultaDTO.consultaToDTO(atualizada);
+
+        //todo: enviar msg para financeiro via rabbitmq
     }
 
     @Override
