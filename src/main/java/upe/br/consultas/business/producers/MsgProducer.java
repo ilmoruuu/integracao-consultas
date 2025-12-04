@@ -32,4 +32,13 @@ public class MsgProducer {
         );
         System.out.println("Mensagem enviada para o RabbitMQ: " + mensagem);
     }
+
+    public void enviarMensagemEstoque(Object mensagem) {
+        rabbitTemplate.convertAndSend(
+                RabbitMQConfig.EXCHANGE_ESTOQUE,
+                RabbitMQConfig.ROUTING_KEY_ESTOQUE,
+                mensagem
+        );
+        System.out.println("Mensagem enviada para o RabbitMQ: " + mensagem);
+    }
 }
