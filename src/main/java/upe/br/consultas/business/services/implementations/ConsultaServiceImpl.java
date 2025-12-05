@@ -6,7 +6,8 @@ import upe.br.consultas.business.producers.MsgProducer;
 import upe.br.consultas.business.services.interfaces.ConsultaService;
 import upe.br.consultas.controller.DTO.consulta.ConsultaCriadaDTO;
 import upe.br.consultas.controller.DTO.consulta.ConsultaDTO;
-import upe.br.consultas.controller.DTO.notificacoes.MsgCancelamentoDTO;
+import upe.br.consultas.controller.DTO.notificacoes.MsgCancelamentoPacienteDTO;
+import upe.br.consultas.controller.DTO.notificacoes.MsgCancelamentoMedicoDTO;
 import upe.br.consultas.controller.DTO.notificacoes.MsgEstoqueDTO;
 import upe.br.consultas.controller.DTO.notificacoes.MsgFinanceiroDTO;
 import upe.br.consultas.infra.entities.Consulta;
@@ -31,7 +32,6 @@ public class ConsultaServiceImpl implements ConsultaService {
     private final PacienteRepository pacienteRepository;
     private final RecepcionistaRepository recepcionistaRepository;
     private final MsgProducer msgProducer;
-
     
 
     @Override
@@ -114,7 +114,7 @@ public class ConsultaServiceImpl implements ConsultaService {
 
         String especialidadeStr = consulta.getMedico().getEspecializacao().name().replace("_", " ");
 
-        MsgCancelamentoDTO notificacao = new MsgCancelamentoDTO(
+        MsgCancelamentoPacienteDTO notificacaoPaciente = new MsgCancelamentoPacienteDTO(
                 consulta.getPaciente().getEmail(),
                 consulta.getPaciente().getNome(),
                 consulta.getMedico().getNome(),
@@ -123,8 +123,17 @@ public class ConsultaServiceImpl implements ConsultaService {
                 "Cancelamento solicitado pelo sistema."
         );
 
+        MsgCancelamentoMedicoDTO notificacaoMedico = new MsgCancelamentoMedicoDTO(
+                consulta.getMedico().getEmail(),
+                consulta.getMedico().getNome(),
+                consulta.getPaciente().getNome(),
+                consulta.getData(),
+                "Cancelamento solicitado pelo sistema."
+        );
+
         //Envia para o RabbitMQ (Assíncrono - não trava o sistema)
-        msgProducer.enviarMensagemCancelamento(notificacao);
+        msgProducer.enviarMensagemCancelamento(notificacaoPaciente);
+        msgProducer.enviarMensagemCancelamento(notificacaoMedico);
 
         consultaRepository.deleteById(id);
     }
