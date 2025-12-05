@@ -4,15 +4,16 @@ import org.hibernate.annotations.processing.Pattern;
 import upe.br.consultas.infra.enums.SexoEnum;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public record PacienteCriadoDTO(
         String nome,
         String cpf,
         String email,
         String telefone,
-        ArrayList<Byte> historico,
+        List<Byte> historico,
         SexoEnum sexo,
-        ArrayList<String> restricoes,
+        List<String> restricoes,
         int idade
 ) {}
 

@@ -11,7 +11,7 @@ public interface PacienteService {
     void excluirPaciente(Integer id);
     List<PacienteDTO> listarPacientes();
     PacienteDTO buscarPacientePorId(Integer id);
-    PacienteDTO buscarPacientePorNome(String nome);
+    List<PacienteDTO> buscarPacientePorNome(String nome);
     PacienteDTO buscarPacientePorCpf(String cpf);
 }
 
