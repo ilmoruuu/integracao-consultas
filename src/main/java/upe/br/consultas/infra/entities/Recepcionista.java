@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Recepicionista {
+public class Recepcionista {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
