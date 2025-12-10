@@ -56,7 +56,6 @@ public class MedicoServiceImpl implements MedicoService {
         medicoRepository.deleteById(id);
     }
 
-
     @Override
     public List<MedicoDTO> listarMedicos() {
         return medicoRepository.findAll()
@@ -64,7 +63,6 @@ public class MedicoServiceImpl implements MedicoService {
                 .map(MedicoDTO::medicotoDTO)
                 .collect(Collectors.toList());
     }
-
 
     @Override
     public MedicoDTO buscarMedicoPorId(Integer id) {

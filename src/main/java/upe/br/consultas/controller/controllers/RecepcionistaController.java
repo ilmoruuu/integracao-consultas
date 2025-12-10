@@ -58,6 +58,6 @@ public class RecepcionistaController {
             // Se as credenciais estiverem erradas, retorna 401 Unauthorized
             return ResponseEntity.status(401).build();
         }
-}
+    }
 
 }
