@@ -16,6 +16,18 @@ public class MedicoController {
     @Autowired
     private MedicoService medicoService;
 
+     @PostMapping("/cadastrar")
+    public ResponseEntity<MedicoDTO> cadastrarMedico(@RequestBody MedicoDTO medicoDTO) {
+        return ResponseEntity
+                .ok(medicoService.cadastrarMedico(medicoDTO));
+    }
+
+    @PutMapping("/atualizar")
+    public ResponseEntity<MedicoDTO> atualizarMedico(@RequestBody MedicoDTO medicoDTO) {
+        return ResponseEntity
+                .ok(medicoService.atualizarMedico(medicoDTO));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<MedicoDTO> getMedicoById(@PathVariable Integer id) {
         return ResponseEntity.ok().body(medicoService.buscarMedicoPorId(id));
