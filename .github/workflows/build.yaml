@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  DOCKER_IMAGE_NAME: upebr/consultas
+  DOCKER_IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/consultas
   JAVA_VERSION: '21'
 
 jobs:
