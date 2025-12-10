@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import upe.br.consultas.controller.DTO.notificacoes.MsgCancelamentoPacienteDTO;
 import upe.br.consultas.infra.config.RabbitMQConfig;
 
+@Component
 public class MsgListener {
   @RabbitListener(queues = RabbitMQConfig.QUEUE_CANCELAMENTO)
     public void receberMensagem(MsgCancelamentoPacienteDTO mensagem) {
