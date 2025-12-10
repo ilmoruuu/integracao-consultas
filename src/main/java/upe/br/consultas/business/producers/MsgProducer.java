@@ -3,7 +3,6 @@ package upe.br.consultas.business.producers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
-import upe.br.consultas.controller.DTO.notificacoes.MsgCancelamentoPacienteDTO;
 import upe.br.consultas.controller.DTO.notificacoes.MsgEstoqueDTO;
 import upe.br.consultas.controller.DTO.notificacoes.MsgFinanceiroDTO;
 import upe.br.consultas.infra.config.RabbitMQConfig;
