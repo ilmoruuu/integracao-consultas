@@ -3,21 +3,17 @@ package upe.br.consultas.controller.DTO.recepcionista;
 import upe.br.consultas.infra.entities.Recepcionista;
 
 public record RecepcionistaDTO(
-
-    Integer id,
-    String nome,
-    String telefone,
-    String email
-
+        Integer id,
+        String nome,
+        String telefone,
+        String email
 ) {
-
-    public RecepcionistaDTO recepcionistaDTO (Recepcionista recepcionista) {
+    public static RecepcionistaDTO recepcionistaToDTO(Recepcionista entity) {
         return new RecepcionistaDTO(
-                recepcionista.getId(),
-                recepcionista.getNome(),
-                recepcionista.getTelefone(),
-                recepcionista.getEmail()
+                entity.getId(),
+                entity.getNome(),
+                entity.getTelefone(),
+                entity.getEmail()
         );
     }
-
 }
