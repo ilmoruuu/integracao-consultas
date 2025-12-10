@@ -5,13 +5,16 @@ import org.springframework.stereotype.Repository;
 import upe.br.consultas.infra.entities.Medico;
 import upe.br.consultas.infra.enums.EspecialidadesEnum;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface MedicoRepository extends JpaRepository<Medico, Integer> {
-    Optional<Medico> findMedicoByNome(String nome);
-    Optional<Medico> findMedicoByEmail(String email);
+
+    Optional<Medico> findMedicoByCrm (String crm);
+    Optional<Medico> findMedicoById(Integer id);
     Optional<Medico> findMedicoByEspecializacao(EspecialidadesEnum especializacao);
-    Optional<Medico> findMedicoByCrm(String crm);
+    Optional<Medico> findMedicoByEmail(String email);
+    Optional<Medico> findMedicoByNome(String nome);
+
+
 }

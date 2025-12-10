@@ -10,6 +10,7 @@ Resumo do Fluxo
 5. Listener (em paralelo): Percebe que chegou mensagem na fila, lê o JSON e imprime no console ("Enviando e-mail...").
 
 
-- começar front 
+
 - config docker 
 - testar no rabbitmq 
+- ajustar com o front (https://github.com/holyvieri/integracao-consulta-front)

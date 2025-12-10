@@ -3,8 +3,6 @@ package upe.br.consultas.infra.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import upe.br.consultas.infra.entities.Consulta;
-import upe.br.consultas.infra.entities.Medico;
-import upe.br.consultas.infra.entities.Paciente;
 
 import java.time.LocalDate;
 import java.util.List;
