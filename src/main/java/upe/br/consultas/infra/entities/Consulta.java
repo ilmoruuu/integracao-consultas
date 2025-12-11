@@ -1,14 +1,6 @@
 package upe.br.consultas.infra.entities;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import upe.br.consultas.infra.enums.CategoriaProdutoEnum;
 
@@ -29,6 +21,7 @@ public class Consulta {
 
     private LocalDate data;
     private String descricao;
+
     private Double valor;
 
     @ManyToOne
@@ -50,6 +43,20 @@ public class Consulta {
     private List<String> materiaisRequisitados = new ArrayList<>();
     // Tipo do Produto
 
+    @Enumerated(EnumType.STRING)
     private CategoriaProdutoEnum categoria;
     private Integer quantidadeMaterial;
+
+    public Consulta(Integer id, LocalDate data, Double valor, String descricao, Paciente paciente, Medico medico, List<String> materiaisRequisitados, Recepcionista recepcionista, CategoriaProdutoEnum categoria, Integer quantidadeMaterial) {
+        this.id = id;
+        this.data = data;
+        this.valor = valor;
+        this.descricao = descricao;
+        this.paciente = paciente;
+        this.medico = medico;
+        this.materiaisRequisitados = materiaisRequisitados;
+        this.recepcionista = recepcionista;
+        this.categoria = categoria;
+        this.quantidadeMaterial = quantidadeMaterial;
+    }
 }

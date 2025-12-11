@@ -12,7 +12,7 @@
 	<groupId>upe.br</groupId>
 	<artifactId>consultas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>consultas</name>
 	<description>Sistema de consultas para uma clínica</description>
 	<url />

@@ -1,12 +1,13 @@
 package upe.br.consultas.business.services.interfaces;
 
+import upe.br.consultas.controller.DTO.medico.MedicoCriadoDTO;
 import upe.br.consultas.controller.DTO.medico.MedicoDTO;
 import upe.br.consultas.infra.enums.EspecialidadesEnum;
 
 import java.util.List;
 
 public interface MedicoService {
-    MedicoDTO cadastrarMedico(MedicoDTO medicoDTO);
+    MedicoDTO cadastrarMedico(MedicoCriadoDTO medicoCriadoDTO);
     MedicoDTO atualizarMedico(MedicoDTO medicoDTO);
     void excluirMedico(Integer id);
     List<MedicoDTO> listarMedicos();

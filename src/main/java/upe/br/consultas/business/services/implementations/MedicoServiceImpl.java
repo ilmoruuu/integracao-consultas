@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import upe.br.consultas.business.services.interfaces.MedicoService;
+import upe.br.consultas.controller.DTO.medico.MedicoCriadoDTO;
 import upe.br.consultas.controller.DTO.medico.MedicoDTO;
 import upe.br.consultas.infra.entities.Medico;
 import upe.br.consultas.infra.enums.EspecialidadesEnum;
@@ -20,14 +21,14 @@ public class MedicoServiceImpl implements MedicoService {
     private MedicoRepository medicoRepository;
 
     @Override
-    public MedicoDTO cadastrarMedico(MedicoDTO medicoDTO) {
+    public MedicoDTO cadastrarMedico(MedicoCriadoDTO medicoCriadoDTO) {
 
         Medico medico = new Medico(
-                medicoDTO.nome(),
-                medicoDTO.telefone(),
-                medicoDTO.email(),
-                medicoDTO.especializacao(),
-                medicoDTO.crm()
+                medicoCriadoDTO.nome(),
+                medicoCriadoDTO.telefone(),
+                medicoCriadoDTO.email(),
+                medicoCriadoDTO.especializacao(),
+                medicoCriadoDTO.crm()
         );
 
         return MedicoDTO.medicotoDTO(medicoRepository.save(medico));
