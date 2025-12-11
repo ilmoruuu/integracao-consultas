@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head}"></head>
+
+<body>
+    <header th:replace="~{fragments :: header}"></header>
+    <nav th:replace="~{fragments :: nav}" th:with="active='consultas'"></nav>
+
+    <div class="container">
+        <div class="card">
+            <h2 th:text="${consulta != null ? 'Editar Consulta' : 'Nova Consulta'}">Nova Consulta</h2>
+
+            <form th:action="${consulta != null ? '/consultas/atualizar' : '/consultas'}" method="post">
+                <input type="hidden" name="id" th:if="${consulta != null}" th:value="${consulta.id}">
+
+                <div class="form-group">
+                    <label for="data">Data da Consulta: *</label>
+                    <input type="date" id="data" name="data" class="form-control"
+                        th:value="${consulta != null ? consulta.data : ''}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="descricao">Descrição: *</label>
+                    <textarea id="descricao" name="descricao" class="form-control"
+                        placeholder="Descreva o motivo da consulta"
+                        th:text="${consulta != null ? consulta.descricao : ''}" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="medicoId">Médico: *</label>
+                    <select id="medicoId" name="medicoId" class="form-control" required>
+                        <option value="">Selecione um médico</option>
+                        <option th:each="medico : ${medicos}" th:value="${medico.id}"
+                            th:text="${medico.nome + ' - ' + medico.especializacao + ' (CRM: ' + medico.crm + ')'}"
+                            th:selected="${consulta != null and consulta.medico.id == medico.id}">
+                            Dr. João - CARDIOLOGISTA (CRM: 12345)
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="pacienteId">Paciente: *</label>
+                    <select id="pacienteId" name="pacienteId" class="form-control" required>
+                        <option value="">Selecione um paciente</option>
+                        <option th:each="paciente : ${pacientes}" th:value="${paciente.id}"
+                            th:text="${paciente.nome + ' - CPF: ' + paciente.cpf}"
+                            th:selected="${consulta != null and consulta.paciente.id == paciente.id}">
+                            Maria Silva - CPF: 123.456.789-00
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="valor">Valor (R$): *</label>
+                    <input type="number" id="valor" name="valor" class="form-control" step="0.01" min="0"
+                        placeholder="0.00" th:value="${consulta != null ? consulta.valor : ''}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="categoria">Categoria do Material: *</label>
+                    <select id="categoria" name="categoria" class="form-control" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option th:each="cat : ${categorias}" th:value="${cat}" th:text="${cat}"
+                            th:selected="${consulta != null and consulta.categoria == cat}">
+                            MEDICAMENTO
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantidadeMaterial">Quantidade de Material: *</label>
+                    <input type="number" id="quantidadeMaterial" name="quantidadeMaterial" class="form-control" min="1"
+                        placeholder="1" th:value="${consulta != null ? consulta.quantidadeMaterial : ''}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="materiaisRequisitados">Materiais Requisitados:</label>
+                    <textarea id="materiaisRequisitados" name="materiaisRequisitados" class="form-control" rows="3"
+                        placeholder="Digite os materiais separados por vírgula (ex: Seringa, Algodão, Gaze)"
+                        th:text="${consulta != null ? #strings.listJoin(consulta.materiaisRequisitados, ', ') : ''}"></textarea>
+                    <small style="color: var(--dark-gray);">Separe os materiais por vírgula</small>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">💾 Salvar</button>
+                    <a th:href="@{/consultas}" class="btn btn-secondary">⬅ Voltar</a>
+                    <a th:href="@{/dashboard}" class="btn btn-secondary">✖ Fechar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

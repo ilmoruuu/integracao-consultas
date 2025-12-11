@@ -9,6 +9,8 @@ import upe.br.consultas.controller.DTO.medico.MedicoCriadoDTO;
 import upe.br.consultas.controller.DTO.medico.MedicoDTO;
 import upe.br.consultas.infra.enums.EspecialidadesEnum;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/medico")
@@ -28,6 +30,11 @@ public class MedicoController {
     public ResponseEntity<MedicoDTO> atualizarMedico(@RequestBody MedicoDTO medicoDTO) {
         return ResponseEntity
                 .ok(medicoService.atualizarMedico(medicoDTO));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<MedicoDTO>> listarMedicos() {
+        return ResponseEntity.ok(medicoService.listarMedicos());
     }
 
     @GetMapping("/{id}")

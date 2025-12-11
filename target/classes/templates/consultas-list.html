@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head}"></head>
+
+<body>
+    <header th:replace="~{fragments :: header}"></header>
+    <nav th:replace="~{fragments :: nav}" th:with="active='consultas'"></nav>
+
+    <div class="container">
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Consultas Agendadas</h2>
+                <a th:href="@{/consultas/nova}" class="btn btn-primary">➕ Nova Consulta</a>
+            </div>
+        </div>
+
+        <div th:replace="~{fragments :: alerts}"></div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Médico</th>
+                        <th>Paciente</th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Categoria</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${consultas.isEmpty()}">
+                        <td colspan="8" style="text-align: center; padding: 2rem;">
+                            Nenhuma consulta agendada.
+                        </td>
+                    </tr>
+                    <tr th:each="consulta : ${consultas}">
+                        <td th:text="${consulta.id}">1</td>
+                        <td th:text="${#temporals.format(consulta.data, 'dd/MM/yyyy')}">01/01/2024</td>
+                        <td th:text="${consulta.medico.nome}">Dr. João</td>
+                        <td th:text="${consulta.paciente.nome}">Maria Silva</td>
+                        <td th:text="${consulta.descricao}">Consulta de rotina</td>
+                        <td th:text="'R$ ' + ${#numbers.formatDecimal(consulta.valor, 1, 2)}">R$ 150,00</td>
+                        <td th:text="${consulta.categoria}">MEDICAMENTO</td>
+                        <td>
+                            <div class="action-buttons">
+                                <a th:href="@{/consultas/editar/{id}(id=${consulta.id})}"
+                                    class="btn btn-sm btn-secondary">Editar</a>
+                                <form th:action="@{/consultas/deletar/{id}(id=${consulta.id})}" method="post"
+                                    style="display: inline;"
+                                    onsubmit="return confirm('Tem certeza que deseja cancelar esta consulta?')">
+                                    <button type="submit" class="btn btn-sm btn-danger">Cancelar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="btn-group">
+            <a th:href="@{/dashboard}" class="btn btn-secondary">⬅ Voltar ao Dashboard</a>
+        </div>
+    </div>
+</body>
+
+</html>
