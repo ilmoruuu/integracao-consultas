@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/paciente")
+@RequestMapping("/api/v1/paciente")
 public class PacienteController {
 
     @Autowired
@@ -32,7 +32,6 @@ public class PacienteController {
         return ResponseEntity.ok(atualizado);
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Integer id) {
         pacienteService.excluirPaciente(id);
@@ -40,24 +39,20 @@ public class PacienteController {
         return ResponseEntity.noContent().build();
     }
 
-
     @GetMapping
     public ResponseEntity<List<PacienteDTO>> listar() {
         return ResponseEntity.ok(pacienteService.listarPacientes());
     }
-
 
     @GetMapping("/id/{id}")
     public ResponseEntity<PacienteDTO> buscarPorId(@PathVariable Integer id) {
         return ResponseEntity.ok(pacienteService.buscarPacientePorId(id));
     }
 
-
     @GetMapping("/nome/{nome}")
     public ResponseEntity<List<PacienteDTO>> buscarPorNome(@PathVariable String nome) {
         return ResponseEntity.ok(pacienteService.buscarPacientePorNome(nome));
     }
-
 
     @GetMapping("/cpf/{cpf}")
     public ResponseEntity<PacienteDTO> buscarPorCpf(@PathVariable String cpf) {

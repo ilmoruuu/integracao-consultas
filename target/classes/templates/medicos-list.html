@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments :: head}"></head>
+
+<body>
+    <header th:replace="~{fragments :: header}"></header>
+    <nav th:replace="~{fragments :: nav}" th:with="active='medicos'"></nav>
+
+    <div class="container">
+        <div class="card">
+            <h2>Lista de Médicos</h2>
+        </div>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Especialização</th>
+                        <th>CRM</th>
+                        <th>Telefone</th>
+                        <th>Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${medicos.isEmpty()}">
+                        <td colspan="6" style="text-align: center; padding: 2rem;">
+                            Nenhum médico cadastrado.
+                        </td>
+                    </tr>
+                    <tr th:each="medico : ${medicos}">
+                        <td th:text="${medico.id}">1</td>
+                        <td th:text="${medico.nome}">Dr. João Silva</td>
+                        <td th:text="${medico.especializacao}">CARDIOLOGISTA</td>
+                        <td th:text="${medico.crm}">12345</td>
+                        <td th:text="${medico.telefone}">(11) 98765-4321</td>
+                        <td th:text="${medico.email}">joao@email.com</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="btn-group">
+            <a th:href="@{/dashboard}" class="btn btn-secondary">⬅ Voltar ao Dashboard</a>
+        </div>
+    </div>
+</body>
+
+</html>

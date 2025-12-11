@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/recepcionista")
+@RequestMapping("/api/v1/recepcionista")
 public class RecepcionistaController {
 
     @Autowired
@@ -58,6 +58,6 @@ public class RecepcionistaController {
             // Se as credenciais estiverem erradas, retorna 401 Unauthorized
             return ResponseEntity.status(401).build();
         }
-}
+    }
 
 }

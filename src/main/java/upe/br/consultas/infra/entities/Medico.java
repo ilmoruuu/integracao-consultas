@@ -25,5 +25,10 @@ public class Medico {
     private String crm;
 
     public Medico(String nome, String telefone, String email, EspecialidadesEnum especializacao, String crm) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.email = email;
+        this.especializacao = especializacao;
+        this.crm = crm;
     }
 }

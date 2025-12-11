@@ -42,7 +42,7 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(segredoToken);
 
             return JWT.require(algorithm)
-                    .withIssuer("arthub")
+                    .withIssuer("integracao-consultas")
                     .build()
                     .verify(token)
                     .getSubject();
@@ -56,7 +56,7 @@ public class TokenService {
         Algorithm algorithm = Algorithm.HMAC256(segredoToken);
 
         DecodedJWT jwt = JWT.require(algorithm)
-                .withIssuer("arthub")
+                .withIssuer("integracao-consultas")
                 .build()
                 .verify(token);
 
