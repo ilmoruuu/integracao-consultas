@@ -60,9 +60,27 @@ public class ConsultaServiceImpl implements ConsultaService {
         consulta.setCategoria(dto.categoria());
         consulta.setQuantidadeMaterial(dto.quantidadeMaterial());
 
-        
+
         Consulta consultaSalva = consultaRepository.save(consulta);
 
+        MsgFinanceiroDTO msgFinanceira = new MsgFinanceiroDTO(
+                consultaSalva.getId(),
+                consultaSalva.getMedico().getId(),
+                consultaSalva.getValor(),
+                consultaSalva.getData()
+        );
+
+        // Envia (Assíncrono - não trava o agendamento se o financeiro estiver fora do ar)
+        msgProducer.enviarMensagemFinanceiro(msgFinanceira);
+
+        MsgEstoqueDTO msgEstoque = new MsgEstoqueDTO(
+                consultaSalva.getId(),
+                consultaSalva.getMateriaisRequisitados(),
+                consultaSalva.getCategoria(),
+                consultaSalva.getQuantidadeMaterial()
+        );
+
+        msgProducer.enviarMensagemEstoque(msgEstoque);
        
         return ConsultaDTO.consultaToDTO(consultaSalva);
     }
@@ -84,25 +102,6 @@ public class ConsultaServiceImpl implements ConsultaService {
         }
 
         Consulta atualizada = consultaRepository.save(consulta);
-
-        MsgFinanceiroDTO msgFinanceira = new MsgFinanceiroDTO(
-            atualizada.getId(),
-            atualizada.getMedico().getId(),
-            atualizada.getValor(),
-            atualizada.getData()
-        );
-        
-        // Envia (Assíncrono - não trava o agendamento se o financeiro estiver fora do ar)
-        msgProducer.enviarMensagemFinanceiro(msgFinanceira);
-
-        MsgEstoqueDTO msgEstoque = new MsgEstoqueDTO(
-                atualizada.getId(),
-                atualizada.getMateriaisRequisitados(),
-                atualizada.getCategoria(),
-                atualizada.getQuantidadeMaterial()
-        );
-
-        msgProducer.enviarMensagemEstoque(msgEstoque);
 
         return ConsultaDTO.consultaToDTO(atualizada);
     }
