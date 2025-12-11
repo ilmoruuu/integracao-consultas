@@ -23,11 +23,12 @@
                         <th>Telefone</th>
                         <th>Email</th>
                         <th>Restrições</th>
+                        <th>Histórico</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:if="${pacientes.isEmpty()}">
-                        <td colspan="7" style="text-align: center; padding: 2rem;">
+                        <td colspan="8" style="text-align: center; padding: 2rem;">
                             Nenhum paciente cadastrado.
                         </td>
                     </tr>
@@ -41,6 +42,9 @@
                         <td
                             th:text="${paciente.restricoes != null and !paciente.restricoes.isEmpty() ? #strings.listJoin(paciente.restricoes, ', ') : 'Nenhuma'}">
                             Nenhuma</td>
+                        <td
+                            th:text="${paciente.historico != null and !paciente.historico.isEmpty() ? paciente.historico.size() + ' bytes' : 'Sem histórico'}">
+                            Sem histórico</td>
                     </tr>
                 </tbody>
             </table>
