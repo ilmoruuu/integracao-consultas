@@ -34,12 +34,22 @@ public class WebViewController {
         return true;
     }
 
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
+
     @GetMapping("/")
     public String index(HttpSession session) {
-        if (session.getAttribute("recepcionista") != null) {
-            return "redirect:/dashboard";
+        try {
+            if (session.getAttribute("recepcionista") != null) {
+                return "redirect:/dashboard";
+            }
+            return "redirect:/login";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "test";
         }
-        return "redirect:/login";
     }
 
     @GetMapping("/dashboard")
