@@ -34,7 +34,7 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         String uri = request.getRequestURI();
 
-        if (uri.equals("/api/v1/recepcionistas/login")) {
+        if (uri.equals("/api/v1/recepcionista/login")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -45,16 +45,13 @@ public class SecurityFilter extends OncePerRequestFilter {
             String email = tokenService.validateToken(token);
 
             if (email != null) {
-                Recepcionista recepcionista =
-                        recepcionistaRepository.findByEmail(email).orElse(null);
+                Recepcionista recepcionista = recepcionistaRepository.findByEmail(email).orElse(null);
 
                 if (recepcionista != null) {
-                    UsernamePasswordAuthenticationToken authentication =
-                            new UsernamePasswordAuthenticationToken(
-                                    recepcionista,
-                                    null,
-                                    List.of()
-                            );
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                            recepcionista,
+                            null,
+                            List.of());
 
                     SecurityContextHolder.getContext()
                             .setAuthentication(authentication);
@@ -67,8 +64,8 @@ public class SecurityFilter extends OncePerRequestFilter {
 
     private String recoverToken(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
-        if (authHeader == null) return null;
+        if (authHeader == null)
+            return null;
         return authHeader.replace("Bearer ", "");
     }
 }
-
